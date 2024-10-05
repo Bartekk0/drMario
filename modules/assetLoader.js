@@ -27,8 +27,6 @@ class AssetLoader {
     }
 
     getAsset(path) {
-        console.log(this.assets);
-
         return this.assets[path];
     }
 

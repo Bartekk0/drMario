@@ -65,10 +65,8 @@ class Board {
         // Creating canvas in html
         this.canvas = document.createElement("canvas");
         this.canvas.classList.add("game-canvas");
-        console.log(window.innerHeight, window.innerWidth);
         const windowRatio = window.innerHeight / window.innerWidth;
         const gameRatio = 384 / 640;
-        console.log(windowRatio, gameRatio);
 
         if (windowRatio < gameRatio) {
             this.canvas.height = window.innerHeight;
@@ -79,7 +77,6 @@ class Board {
             this.canvas.height = window.innerWidth * (384 / 640);
             this.scale = window.innerWidth / 640;
         }
-        console.log(this.scale);
         this.pieceSize *= this.scale;
         this.playgroundYOffset = this.pieceSize * 6;
         this.playgroundXOffset = this.pieceSize * 17;

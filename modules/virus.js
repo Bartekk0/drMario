@@ -25,9 +25,6 @@ class Virus extends Piece {
             ".png";
 
         const img = this.board.assetLoader.getAsset(path);
-        console.log(img);
-
-        console.log(img.src);
 
         ctx.drawImage(img, x, y, this.board.pieceSize, this.board.pieceSize);
     }
