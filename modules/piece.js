@@ -19,14 +19,9 @@ class Piece {
         const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
         let path = "";
         if (howMany == 1) {
-            path =
-                sprites["path"] +
-                "pills/" +
-                this.colors[this.color - 1] +
-                "_single.png";
+            path = "pills/" + this.colors[this.color - 1] + "_single.png";
         } else {
             path =
-                sprites["path"] +
                 "pills/" +
                 this.colors[this.color - 1] +
                 "_" +

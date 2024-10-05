@@ -1,3 +1,5 @@
+import sprites from "./sprites.js";
+
 class AssetLoader {
     constructor() {
         this.assets = {};
@@ -8,7 +10,8 @@ class AssetLoader {
         const loadImage = (path) => {
             return new Promise((resolve, reject) => {
                 const img = new Image();
-                img.src = path;
+                img.src = sprites.path + path;
+
                 img.onload = () => resolve({ path, img });
                 img.onerror = (err) => reject(err);
             });
@@ -24,6 +27,8 @@ class AssetLoader {
     }
 
     getAsset(path) {
+        console.log(this.assets);
+
         return this.assets[path];
     }
 

@@ -46,6 +46,8 @@ class Game {
 
         try {
             if (!this.board.assetLoader.loaded) {
+                console.log("Loading images");
+
                 await this.board.loadImages();
             }
 
@@ -372,7 +374,7 @@ class Game {
         this.drawNumber(this.viruses.length, 35, 21, 2);
     }
     drawGameOver() {
-        const path = sprites.path + "other/gameover.png";
+        const path = "other/gameover.png";
         this.board.drawInfo(path, 14, 5);
     }
 

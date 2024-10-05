@@ -15,7 +15,7 @@ class Board {
         this.assetLoader = new AssetLoader();
     }
     async loadImages() {
-        this.assetLoader
+        await this.assetLoader
             .loadImagePathsFromFile("../images/imagePaths.txt")
             .then((imagePaths) => {
                 return this.assetLoader.loadImages(imagePaths);
@@ -23,7 +23,6 @@ class Board {
             .then(() => {
                 console.log("All images loaded");
                 // Now you can use assetLoader.getAsset(path) to get the loaded images
-                return;
             })
             .catch((err) => {
                 alert("Error loading images");
@@ -133,7 +132,7 @@ class Board {
     drawNumber(number, x, y) {
         // Drawing number on canvas
         const ctx = this.ctx;
-        const path = sprites.path + "numbers/" + number + ".png";
+        const path = "numbers/" + number + ".png";
         const img = this.assetLoader.getAsset(path);
 
         ctx.drawImage(img, x + 1, y - 1, this.pieceSize, this.pieceSize);

@@ -18,7 +18,6 @@ class Virus extends Piece {
         const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
 
         let path =
-            sprites["path"] +
             "viruses/virus_" +
             this.colors[this.color - 1] +
             "_" +
@@ -26,6 +25,10 @@ class Virus extends Piece {
             ".png";
 
         const img = this.board.assetLoader.getAsset(path);
+        console.log(img);
+
+        console.log(img.src);
+
         ctx.drawImage(img, x, y, this.board.pieceSize, this.board.pieceSize);
     }
     changeFrame() {
