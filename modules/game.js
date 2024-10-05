@@ -59,7 +59,7 @@ class Game {
 
                 this.draw();
             });
-        }, 1000 / 60);
+        }, 1000 / 90);
     }
     spawnViruses(n) {
         const positions = [];
