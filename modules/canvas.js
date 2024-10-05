@@ -59,6 +59,7 @@ class Board {
         console.log(this.scale);
         this.pieceSize *= this.scale;
         this.playgroundYOffset = this.pieceSize * 6;
+        this.playgroundXOffset = this.pieceSize * 17;
 
         // this.canvas.height =
         //     this.height * this.pieceSize + (this.height + 1) * this.margin;
