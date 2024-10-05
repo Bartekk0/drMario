@@ -1,3 +1,4 @@
+https://mendela.pl/lekcje/w/
 Punktacja:
 	Szczegóły zawsze przy danym temacie! Poniżej synteza + dwa uzupełnienia!
 
@@ -12,7 +13,7 @@ Punktacja:
 				obrót w prawo - shift (00:21 - 00:25)
 					uważaj na przejście w poziom przy prawej ścianie (00:33 - 00:36)
 			- uwaga na przytrzymanie klawisza
--			- dodanie odpowiednich grafik tabletek
+			- dodanie odpowiednich grafik tabletek
 
 		*1p [cz.1]
 -			sterowanie:	
@@ -63,3 +64,4 @@ Punktacja:
 +/-				i dadzą możliwość kontynuacji gry na kolejnych level'ach (zmiana kolorystyki, il. wirusów).
 
 		SUMA PUNKTÓW:
+
