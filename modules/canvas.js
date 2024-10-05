@@ -61,12 +61,6 @@ class Board {
         this.playgroundYOffset = this.pieceSize * 6;
         this.playgroundXOffset = this.pieceSize * 17;
 
-        // this.canvas.height =
-        //     this.height * this.pieceSize + (this.height + 1) * this.margin;
-
-        // this.canvas.width =
-        //     this.width * this.pieceSize + (this.width + 1) * this.margin;
-
         this.background = new Image();
         this.background.height = this.canvas.height;
         this.background.width = this.canvas.width;

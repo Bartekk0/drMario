@@ -13,29 +13,6 @@ class Piece {
     setColor(color) {
         this.color = color;
     }
-    // draw(stroke="black") {
-    //     // Drawing on canvas
-    //     const ctx = this.board.ctx;
-    //     const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
-
-    //     ctx.strokeStyle = stroke;
-    //     ctx.lineCap = "round";
-    //     ctx.lineWidth = this.board.margin;
-    //     ctx.fillStyle = this.colors[this.color-1]
-    //     ctx.beginPath();
-
-    //     ctx.moveTo(x, y);
-    //     ctx.lineTo(x + this.pieceSize, y);
-    //     ctx.lineTo(x + this.pieceSize, y + this.pieceSize);
-    //     ctx.lineTo(x, y + this.pieceSize);
-    //     ctx.lineTo(x, y);
-
-    //     ctx.closePath()
-
-    //     ctx.stroke();
-    //     ctx.fill();
-
-    // }
 
     draw(howMany, index, spin) {
         const ctx = this.board.ctx;
