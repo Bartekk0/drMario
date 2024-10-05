@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/font.css">
+    <title>Dr. Mario</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        
+            background: #181a1b;
+
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .main {
+            height: 600px;
+            width: 1000px;
+            background: #8b82721f;
+            border: 6px ridge #8b8272;
+            text-align: center;
+            user-select: none;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 100px;
+        }
+        .title {
+            font-variant: small-caps;
+            font-family: "Press Start 2P", system-ui;
+            color: #ffff0080;
+            text-shadow: 10px 10px #181a1b;
+            font-size: 100px;
+        }
+        .button {
+            /* font-variant: small-caps; */
+            font-family: "Press Start 2P", system-ui;
+            color: #a52a2a80;
+            font-size: 80px;  
+            text-shadow: 10px 10px #181a1b;
+        }
+        .button:active {
+            text-shadow: none;
+            color: #a52a2aa0;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="main">
+        <div class="title">Dr. Mario
+
+        </div>
+
+        <div class="button" onclick="start()"> START </div>
+    </div>
+    <script>
+        function start() {
+            setTimeout(window.location.replace("game.html"), 1000);
+        }
+        document.addEventListener("keypress", (e) => {
+            if(e.key == "Enter") start();
+        });
+    </script>
+</body>
+</html>

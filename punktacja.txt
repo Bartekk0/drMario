@@ -1,0 +1,65 @@
+Punktacja:
+	Szczegóły zawsze przy danym temacie! Poniżej synteza + dwa uzupełnienia!
+
+		Uwaga: cały projekt piszemy z użyciem klas.
+		Brak takiej budowy projektu? Projekt nie podlega ocenie!
+
+		*1p [cz.1]
+			sterowanie:
+				ruch w lewo - strzałka w lewo / a
+				ruch w prawo - strzałka w prawo / d
+				obrót w lewo - strzałka do góry / w (00:11 - 00:18)
+				obrót w prawo - shift (00:21 - 00:25)
+					uważaj na przejście w poziom przy prawej ścianie (00:33 - 00:36)
+			- uwaga na przytrzymanie klawisza
+-			- dodanie odpowiednich grafik tabletek
+
+		*1p [cz.1]
+-			sterowanie:	
+				spuszczenie klocka - strzałka w dół / s (np. 00:04 - 00:05)
+				następuje zablokowanie ruchów póki klocek nie spadnie
+			- klocek spada w dół co określony czas 
+			- gdy coś pod nim jest lub dolna granica to "blokuje" się (np. 00:02-00:09, 00:27-00:30)
+			- klocek może zająć miejsce tylko kiedy jest miejsce (uwaga na wkręcenie 00:37 - 00:39, podsunięcia też możliwe)
+
+		*1p [cz.2]
+			- zbijaniu ulegają min.4 elementy tego samego koloru w wierszu (0:26) lub kolumnie
+-			- pamiętaj o "animacji zbitych grup" - ox (lewy filmik 00:29) [cz.4]
+
+		*1p [cz.2]
+			- uważaj na krzyżowania (0:43)
+			- wirusy losuję do 2/3 głębokości studni (możliwość zbicia) [uzupełnienie]
+			- wirusy losuję z "wstęgi": kolorA, kolorB, kolorC, kolorA, kolorB (przykładowa sytuacja dla 5 wirusów) [uzupełnienie]
+
+
+		*1p [cz.3] 
+			Zaimplementuj dowolny algorytm opadania.
+
+		*0.5p [cz.3]
+			Podziel projekt na moduły.
+
+		*1p [cz.3, cz.4]
+			Punkty przechowuj w LocalStorage.
+			Ad.1 - rekordy przechowujemy w localStorage'u [cz.4]
+			Ad.2 - każdy zbity wirus to +100p [cz.4]
+			Ad.7 - aktualizowane wraz z niszczeniem kolejnych wirusów [cz.4]
+			Ad.X - dodajemy info o końcu gry (game over) jak i końcu level'u (stage completed) [cz.4]
+
+-		1p [cz.4]
+			Ad.3 - animacja tabletki i ręki
+
+-		1p [cz.4]
+-			Ad.4 - podmieniam całą grafikę gdy game over (lewy filmik 00:00)
+-				gdy game over wirusy zostają w miejscach w których były gdy gra się kończy
+-				(00:07 - tutaj) i zmiana grafik w tych animacjach.
+-			Ad.5 - nie wymagam animacji zniszczonego typu wirusa (u mnie brak)
+
++/-		0.5p [cz.4]
+-			preview tabletki
+
+-		+1p (bonus pdb)
+-			dla osób, które pozbędą się moich mankamentów:
+-				tableta "w pionie", animacje "padających" wirusów (z lewej) 
++/-				i dadzą możliwość kontynuacji gry na kolejnych level'ach (zmiana kolorystyki, il. wirusów).
+
+		SUMA PUNKTÓW:
