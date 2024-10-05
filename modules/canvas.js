@@ -1,5 +1,6 @@
 import sortByY from "./functions.js";
 import sprites from "./sprites.js";
+import AssetLoader from "./assetLoader.js";
 
 class Board {
     constructor(height = 16, width = 8, pieceSize = 16, margin = 0) {
@@ -11,7 +12,25 @@ class Board {
         this.margin = margin;
         this.#createGrid();
         this.#createCanvas();
+        this.assetLoader = new AssetLoader();
     }
+    async loadImages() {
+        this.assetLoader
+            .loadImagePathsFromFile("../images/imagePaths.txt")
+            .then((imagePaths) => {
+                return this.assetLoader.loadImages(imagePaths);
+            })
+            .then(() => {
+                console.log("All images loaded");
+                // Now you can use assetLoader.getAsset(path) to get the loaded images
+                return;
+            })
+            .catch((err) => {
+                alert("Error loading images");
+                console.error("Error loading images", err);
+            });
+    }
+
     draw() {
         this.clearCanvas();
 
@@ -115,10 +134,22 @@ class Board {
         // Drawing number on canvas
         const ctx = this.ctx;
         const path = sprites.path + "numbers/" + number + ".png";
-        const img = new Image();
-        img.src = path;
+        const img = this.assetLoader.getAsset(path);
 
         ctx.drawImage(img, x + 1, y - 1, this.pieceSize, this.pieceSize);
+    }
+    drawInfo(path, sizeX, sizeY) {
+        // Drawing info on canvas
+        const ctx = this.ctx;
+        const img = this.assetLoader.getAsset(path);
+
+        ctx.drawImage(
+            img,
+            this.playgroundXOffset - this.pieceSize * 3,
+            this.playgroundYOffset,
+            this.pieceSize * sizeX + 1,
+            this.pieceSize * sizeY + 2
+        );
     }
 }
 export default Board;

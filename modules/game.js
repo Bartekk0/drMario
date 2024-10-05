@@ -2,6 +2,9 @@ import Board from "./canvas.js";
 import Virus from "./virus.js";
 import movingPill from "./movingPill.js";
 import style from "./style.js";
+import sprites from "./sprites.js";
+import AssetLoader from "./assetLoader.js";
+
 class Game {
     constructor(interval = 500) {
         this.interval = interval;
@@ -13,6 +16,9 @@ class Game {
         // Random numbers
         this.levels = [3, 6, 10, 13, 16, 20, 30, 40, 64];
         this.highScore = localStorage.getItem("Mario_hs");
+        this.frameCounter = 0;
+        this.over = false;
+        this.assetLoader = new AssetLoader();
     }
     randomColor() {
         this.nextColors = [
@@ -33,18 +39,28 @@ class Game {
 
         style();
     }
-    start() {
+    async start() {
         // Initialize the first level
         this.initialize(this.level);
         this.createFallingPill();
-        this.board.draw();
-        alert("Starting level " + this.level);
 
-        // Start first step of game loop
-        setTimeout(() => {
-            this.fallingPill();
-            this.draw();
-        }, this.interval);
+        try {
+            if (!this.board.assetLoader.loaded) {
+                await this.board.loadImages();
+            }
+
+            this.board.draw();
+            alert("Starting level " + this.level);
+
+            // Start first step of game loop
+            setTimeout(() => {
+                this.fallingPill();
+                this.draw();
+            }, this.interval);
+        } catch (error) {
+            console.error("Error loading assets:", error);
+            alert("Failed to load game assets. Please try again.");
+        }
     }
     draw() {
         setTimeout(() => {
@@ -56,10 +72,17 @@ class Game {
                 this.drawHighScore();
                 this.drawLevel();
                 this.drawVirusesLeft();
-
+                if (this.over) this.drawGameOver();
                 this.draw();
             });
-        }, 1000 / 90);
+            this.frameCounter++;
+            this.frameCounter %= 60;
+            if (this.frameCounter % 15 == 0) {
+                this.viruses.forEach((virus) => {
+                    virus.changeFrame();
+                });
+            }
+        }, 1000 / 60);
     }
     spawnViruses(n) {
         const positions = [];
@@ -305,10 +328,11 @@ class Game {
     }
 
     gameEnd(x) {
-        if (x) alert("You win");
-        else alert("You lost");
+        this.over = true;
+        // if (x) alert("You win");
+        // else alert("You lost");
         this.scoreChanged();
-        location.reload();
+        // location.reload();
     }
 
     scoreChanged() {
@@ -346,6 +370,15 @@ class Game {
     }
     drawVirusesLeft() {
         this.drawNumber(this.viruses.length, 35, 21, 2);
+    }
+    drawGameOver() {
+        const path = sprites.path + "other/gameover.png";
+        this.board.drawInfo(path, 14, 5);
+    }
+
+    drawNextLevel() {
+        const path = sprites.path + "other/stagecompleted.png";
+        this.board.drawInfo(path, 14, 5);
     }
 
     xToNString(x, n) {

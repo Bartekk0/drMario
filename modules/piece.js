@@ -33,8 +33,7 @@ class Piece {
                 sprites["pills"]["piece"][index][spin % 2] +
                 ".png";
         }
-        const img = new Image();
-        img.src = path;
+        const img = this.board.assetLoader.getAsset(path);
         ctx.drawImage(img, x, y, this.board.pieceSize, this.board.pieceSize);
     }
     canFall() {
