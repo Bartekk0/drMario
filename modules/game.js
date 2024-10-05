@@ -28,7 +28,7 @@ class Game {
 
         // Reset the board and spawn viruses
         this.board.clearGrid();
-        // this.spawnViruses(this.levels[this.level-1]);
+        this.spawnViruses(this.levels[this.level - 1]);
 
         style();
     }

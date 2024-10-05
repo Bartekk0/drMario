@@ -8,11 +8,8 @@ const sprites = {
         width: 16,
         height: 16,
         piece: [
-            ["single"],
-            [
-                ["left", "bottom"],
-                ["right", "top"],
-            ],
+            ["left", "bottom"],
+            ["right", "top"],
         ],
     },
     background: {

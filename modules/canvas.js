@@ -1,7 +1,7 @@
 import sortByY from "./functions.js";
 
 class Board {
-    constructor(height = 16, width = 8, pieceSize = 24, margin = 0) {
+    constructor(height = 16, width = 8, pieceSize = 50, margin = 0) {
         this.height = height;
         this.width = width;
         this.pills = [];
@@ -13,7 +13,6 @@ class Board {
     }
     draw() {
         // Updating position of the pills on grid
-
         this.updateGridPositions();
 
         this.clearCanvas();

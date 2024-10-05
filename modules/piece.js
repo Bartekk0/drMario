@@ -38,28 +38,27 @@ class Piece {
     // }
 
     draw(howMany, index, spin) {
+        const ctx = this.board.ctx;
+        const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
+        let path = "";
         if (howMany == 1) {
+            path =
+                sprites["path"] +
+                "pills/" +
+                this.colors[this.color - 1] +
+                "_single.png";
         } else {
-            const ctx = this.board.ctx;
-            const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
-            const path =
+            path =
                 sprites["path"] +
                 "pills/" +
                 this.colors[this.color - 1] +
                 "_" +
-                sprites["pills"]["piece"][1][index][spin % 2] +
+                sprites["pills"]["piece"][index][spin % 2] +
                 ".png";
-            const img = new Image();
-            img.src = path;
-
-            ctx.drawImage(
-                img,
-                x,
-                y,
-                this.board.pieceSize,
-                this.board.pieceSize
-            );
         }
+        const img = new Image();
+        img.src = path;
+        ctx.drawImage(img, x, y, this.board.pieceSize, this.board.pieceSize);
     }
     canFall() {
         // Checking if place below the piece is empty (undefined)
