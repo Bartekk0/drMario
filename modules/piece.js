@@ -82,8 +82,12 @@ class Piece {
         // Calculating canvas x, y from grid x, y
         this.pieceSize = this.board.pieceSize;
         return [
-            this.pieceSize * x + this.board.margin * (x + 1),
-            this.board.pieceSize * y + this.board.margin * (y + 1),
+            this.pieceSize * x +
+                this.board.margin * (x + 1) +
+                this.board.playgroundXOffset,
+            this.board.pieceSize * y +
+                this.board.margin * (y + 1) +
+                this.board.playgroundYOffset,
         ];
     }
 }

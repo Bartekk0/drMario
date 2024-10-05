@@ -1,7 +1,7 @@
 import sortByY from "./functions.js";
 
 class Board {
-    constructor(height = 16, width = 8, pieceSize = 50, margin = 0) {
+    constructor(height = 16, width = 8, pieceSize = 16, margin = 0) {
         this.height = height;
         this.width = width;
         this.pills = [];
@@ -12,10 +12,19 @@ class Board {
         this.#createCanvas();
     }
     draw() {
+        this.clearCanvas();
+
+        // Drawing background
+        this.ctx.drawImage(
+            this.background,
+            0,
+            0,
+            this.background.width,
+            this.background.height
+        );
+
         // Updating position of the pills on grid
         this.updateGridPositions();
-
-        this.clearCanvas();
 
         // Drawing every piece
         [...this.viruses, ...this.pills].forEach((item) => {
@@ -37,14 +46,32 @@ class Board {
         // Creating canvas in html
         this.canvas = document.createElement("canvas");
         this.canvas.classList.add("game-canvas");
-        this.canvas.height =
-            this.height * this.pieceSize + (this.height + 1) * this.margin;
+        console.log(window.innerHeight, window.innerWidth);
+        if (window.innerWidth >= window.innerHeight) {
+            this.canvas.height = window.innerHeight;
+            this.canvas.width = window.innerHeight * (640 / 384);
+            this.scale = window.innerHeight / 384;
+        } else {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerWidth * (384 / 640);
+            this.scale = window.innerWidth / 640;
+        }
+        console.log(this.scale);
+        this.pieceSize *= this.scale;
+        this.playgroundYOffset = this.pieceSize * 6;
 
-        this.canvas.width =
-            this.width * this.pieceSize + (this.width + 1) * this.margin;
+        // this.canvas.height =
+        //     this.height * this.pieceSize + (this.height + 1) * this.margin;
+
+        // this.canvas.width =
+        //     this.width * this.pieceSize + (this.width + 1) * this.margin;
+
+        this.background = new Image();
+        this.background.height = this.canvas.height;
+        this.background.width = this.canvas.width;
 
         this.ctx = this.canvas.getContext("2d");
-
+        this.background.src = "../images/other/background.png";
         const body = document.querySelector("body");
         body.appendChild(this.canvas);
     }
