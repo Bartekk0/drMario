@@ -59,7 +59,6 @@ class movingPill extends Pill {
                 this.pieces[1].x++;
             }
         }
-        this.board.draw();
     }
     moveLeft() {
         // Different condition for horizontal and vertical positions.
@@ -86,11 +85,9 @@ class movingPill extends Pill {
                 this.pieces[1].x--;
             }
         }
-        this.board.draw();
     }
     moveDown() {
         this.fall();
-        this.board.draw();
     }
 
     spinPill(s) {
@@ -218,7 +215,6 @@ class movingPill extends Pill {
         if (error) {
             this.spin -= s;
         }
-        this.board.draw();
     }
     intoPill() {
         // Transforming into pill

@@ -12,6 +12,7 @@ class Game {
         // Number of viruses in each level
         // Random numbers
         this.levels = [3, 6, 10, 13, 16, 20, 30, 40, 64];
+        this.highScore = localStorage.getItem("Mario_hs");
     }
     randomColor() {
         this.nextColors = [
@@ -51,6 +52,11 @@ class Game {
                 // this.board.updateGridPositions();
                 // this.board.clearCanvas();
                 this.board.draw();
+                this.drawScore();
+                this.drawHighScore();
+                this.drawLevel();
+                this.drawVirusesLeft();
+
                 this.draw();
             });
         }, 1000 / 60);
@@ -295,29 +301,65 @@ class Game {
         this.level++;
         this.start();
 
-        this.saveScore();
+        this.scoreChanged();
     }
 
     gameEnd(x) {
         if (x) alert("You win");
         else alert("You lost");
-        this.saveScore();
+        this.scoreChanged();
         location.reload();
     }
 
-    saveScore() {
-        const hs = localStorage.getItem("Mario_hs");
-        if (hs == null) {
+    scoreChanged() {
+        this.highScore = localStorage.getItem("Mario_hs");
+        if (this.highScore == null) {
             localStorage.setItem("Mario_hs", this.score);
-        } else if (Number(hs) < this.score) {
+        } else if (Number(this.highScore) < this.score) {
             localStorage.setItem("Mario_hs", this.score);
         }
     }
 
+    drawNumber(number, x, y, n) {
+        const offsetY = this.board.pieceSize * y;
+        const offsetX = this.board.pieceSize * x;
+        const score = this.xToNString(number, n);
+
+        for (let i = 0; i < score.length; i++) {
+            const element = score[i];
+            this.board.drawNumber(
+                element,
+                offsetX + i * this.board.pieceSize,
+                offsetY
+            );
+        }
+    }
+
+    drawScore() {
+        this.drawNumber(this.score, 5, 8, 7);
+    }
+    drawHighScore() {
+        this.drawNumber(this.highScore, 5, 5, 7);
+    }
+    drawLevel() {
+        this.drawNumber(this.level, 35, 15, 2);
+    }
+    drawVirusesLeft() {
+        this.drawNumber(this.viruses.length, 35, 21, 2);
+    }
+
+    xToNString(x, n) {
+        let result = "";
+        for (let i = 0; i < n - x.toString().length; i++) {
+            result += "0";
+        }
+        result += x;
+        return result;
+    }
+
     virusKilled() {
         this.score += 100;
-        console.log("Score: " + this.score);
-        this.saveScore();
+        this.scoreChanged();
     }
 }
 

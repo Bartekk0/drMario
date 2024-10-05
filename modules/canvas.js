@@ -1,4 +1,5 @@
 import sortByY from "./functions.js";
+import sprites from "./sprites.js";
 
 class Board {
     constructor(height = 16, width = 8, pieceSize = 16, margin = 0) {
@@ -14,6 +15,9 @@ class Board {
     draw() {
         this.clearCanvas();
 
+        // Updating position of the pills on grid
+        this.updateGridPositions();
+
         // Drawing background
         this.ctx.drawImage(
             this.background,
@@ -22,9 +26,6 @@ class Board {
             this.background.width,
             this.background.height
         );
-
-        // Updating position of the pills on grid
-        this.updateGridPositions();
 
         // Drawing every piece
         [...this.viruses, ...this.pills].forEach((item) => {
@@ -47,7 +48,11 @@ class Board {
         this.canvas = document.createElement("canvas");
         this.canvas.classList.add("game-canvas");
         console.log(window.innerHeight, window.innerWidth);
-        if (window.innerWidth >= window.innerHeight) {
+        const windowRatio = window.innerHeight / window.innerWidth;
+        const gameRatio = 384 / 640;
+        console.log(windowRatio, gameRatio);
+
+        if (windowRatio < gameRatio) {
             this.canvas.height = window.innerHeight;
             this.canvas.width = window.innerHeight * (640 / 384);
             this.scale = window.innerHeight / 384;
@@ -105,6 +110,15 @@ class Board {
     clearGrid() {
         this.#createGrid();
         this.pills = [];
+    }
+    drawNumber(number, x, y) {
+        // Drawing number on canvas
+        const ctx = this.ctx;
+        const path = sprites.path + "numbers/" + number + ".png";
+        const img = new Image();
+        img.src = path;
+
+        ctx.drawImage(img, x + 1, y - 1, this.pieceSize, this.pieceSize);
     }
 }
 export default Board;
