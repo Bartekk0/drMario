@@ -234,3 +234,4 @@ class movingPill extends Pill {
     }
 }
 export default movingPill;
+
