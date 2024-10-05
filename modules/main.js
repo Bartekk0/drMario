@@ -1,7 +1,6 @@
-import Game from './game.js';
-
+import Game from "./game.js";
 
 const newGame = new Game(400);
-newGame.start()
+newGame.start();
 
 export default newGame;

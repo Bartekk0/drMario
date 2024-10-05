@@ -1,32 +1,24 @@
 const sprites = {
-    "path": "../images/",
-    "viruses": {
-        "width": 16,
-        "height": 16
+    path: "../images/",
+    viruses: {
+        width: 16,
+        height: 16,
     },
-    "pills": {
-        "width": 16,
-        "height": 16,
-        "piece":[
+    pills: {
+        width: 16,
+        height: 16,
+        piece: [
+            ["single"],
             [
-                "single"
+                ["left", "bottom"],
+                ["right", "top"],
             ],
-            [
-                [
-                    "left",
-                    "bottom"
-                ],
-                [
-                    "right",
-                    "top"
-                ]
-            ]
-        ]
+        ],
     },
-    "background": {
-        "height": 384,
-        "width": 640
-    }
-}
+    background: {
+        height: 384,
+        width: 640,
+    },
+};
 
 export default sprites;
