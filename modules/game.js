@@ -125,7 +125,7 @@ class Game {
         );
     }
 
-    fallingPill() {
+    async fallingPill() {
         // Pieces fall while it can
         if (!this.userPill.canFall()) {
             // Turning moving pill into normal pill
@@ -133,7 +133,7 @@ class Game {
             this.board.addPill(this.userPill.intoPill());
 
             // Then start next step of the game
-            this.piecesClear();
+            await this.piecesClear();
         } else {
             // Falling loop
             this.userPill.fall();
@@ -144,7 +144,7 @@ class Game {
         }
     }
 
-    piecesClear() {
+    async piecesClear() {
         let cleared = false;
         // Clearing pieces
 
@@ -228,16 +228,23 @@ class Game {
 
         if (toClear.length > 0) {
             // Then clearing it
-            toClear.forEach((e) => {
+            for (const e of toClear) {
                 let endX, endY;
                 if (e.x.length == 2) endX = e.x[1];
                 else endX = e.x[0];
                 if (e.y.length == 2) endY = e.y[1];
                 else endY = e.y[0];
 
-                for (let i = e.y[0]; i < endY + 1; i++) {
+                for (let i = endY; i >= e.y[0]; i--)
+                    for (let j = e.x[0]; j < endX + 1; j++)
+                        this.board.grid[i][j].empty = true;
+
+                await new Promise((r) => setTimeout(r, this.interval));
+
+                for (let i = endY; i >= e.y[0]; i--) {
                     for (let j = e.x[0]; j < endX + 1; j++) {
                         const piece = this.board.grid[i][j];
+
                         if (piece == undefined) continue;
 
                         if (piece.constructor.name == "Virus") {
@@ -258,20 +265,26 @@ class Game {
                             }
                             pill.spin = 0;
                         }
+
+                        // this.board.grid[i][j].empty = true;
+                        await new Promise((r) =>
+                            setTimeout(r, this.interval / 8)
+                        );
+
                         this.board.updateGridPositions();
 
                         this.board.grid[i][j] = undefined;
                     }
                 }
-            });
+            }
             cleared = true;
         }
 
         // If something cleared then pieces fall
         if (cleared && this.anyVirusesLeft()) {
-            setTimeout(() => {
-                this.piecesFall();
-            }, this.interval);
+            // setTimeout(() => {
+            this.piecesFall();
+            // }, this.interval);
         } else
             setTimeout(() => {
                 // If not pill spawns again
@@ -292,7 +305,7 @@ class Game {
             }, 100);
     }
 
-    piecesFall() {
+    async piecesFall() {
         let fall = false;
 
         // Pieces fall
@@ -310,7 +323,7 @@ class Game {
         } else {
             // If nothing fall then pieces clear
             // setTimeout(() => this.piecesClear(), this.interval/2)
-            this.piecesClear();
+            await this.piecesClear();
         }
         return fall;
     }

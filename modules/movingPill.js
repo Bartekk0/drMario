@@ -101,26 +101,31 @@ class movingPill extends Pill {
         // Spin even => vertical    -
         // Spin odd  => horizontal  |
 
+        // FIXME: something is wrong with this code
+
         switch (this.spin) {
             case 0:
                 if (
-                    this.board.grid[this.pieces[0].y][this.pieces[0].x - 1] ==
-                        undefined &&
-                    (this.pieces[0].x == this.board.width - 1 ||
-                        (this.pieces[0].x > 0 &&
-                            this.board.grid[this.pieces[0].y][
-                                this.pieces[0].x + 1
-                            ] != undefined &&
-                            this.board.grid[this.pieces[0].y][
-                                this.pieces[1].x + 1
-                            ] != undefined))
+                    this.pieces[0].x == this.board.width - 1 ||
+                    (this.pieces[0].x > 0 &&
+                        this.board.grid[this.pieces[0].y][
+                            this.pieces[0].x + 1
+                        ] != undefined &&
+                        this.board.grid[this.pieces[0].y][
+                            this.pieces[1].x + 1
+                        ] != undefined)
                 ) {
-                    // LEWA KRAWĘDŹ!!!
-                    this.pieces[0].x--;
-                    this.pieces[1].x--;
+                    if (
+                        this.board.grid[this.pieces[0].y][
+                            this.pieces[0].x - 1
+                        ] == undefined
+                    ) {
+                        this.pieces[0].x--;
+                        this.pieces[1].x--;
 
-                    this.pieces[1].x++;
-                    this.pieces[1].y++;
+                        this.pieces[1].x++;
+                        this.pieces[1].y++;
+                    } else error = true;
                 }
                 // Checking if spining is possible
                 else if (
@@ -159,22 +164,26 @@ class movingPill extends Pill {
                 break;
             case 2:
                 if (
-                    this.board.grid[this.pieces[0].y][this.pieces[0].x - 1] ==
-                        undefined &&
-                    (this.pieces[0].x == this.board.width - 1 ||
-                        (this.pieces[0].x > 0 &&
-                            this.board.grid[this.pieces[0].y][
-                                this.pieces[0].x + 1
-                            ] != undefined &&
-                            this.board.grid[this.pieces[0].y][
-                                this.pieces[1].x + 1
-                            ] != undefined))
+                    this.pieces[0].x == this.board.width - 1 ||
+                    (this.pieces[0].x > 0 &&
+                        this.board.grid[this.pieces[0].y][
+                            this.pieces[0].x + 1
+                        ] != undefined &&
+                        this.board.grid[this.pieces[0].y][
+                            this.pieces[1].x + 1
+                        ] != undefined)
                 ) {
-                    this.pieces[0].x--;
-                    this.pieces[1].x--;
+                    if (
+                        this.board.grid[this.pieces[0].y][
+                            this.pieces[0].x - 1
+                        ] == undefined
+                    ) {
+                        this.pieces[0].x--;
+                        this.pieces[1].x--;
 
-                    this.pieces[1].x++;
-                    this.pieces[1].y++;
+                        this.pieces[1].x++;
+                        this.pieces[1].y++;
+                    } else error = true;
                 } else if (
                     this.board.grid[this.pieces[1].y + 1][
                         this.pieces[1].x + 1

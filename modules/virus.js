@@ -17,12 +17,16 @@ class Virus extends Piece {
         const ctx = this.board.ctx;
         const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
 
-        let path =
-            "viruses/virus_" +
-            this.colors[this.color - 1] +
-            "_" +
-            this.frame +
-            ".png";
+        let path = "";
+        if (this.empty)
+            path = "pills/" + this.colors[this.color - 1] + "_empty.png";
+        else
+            path =
+                "viruses/virus_" +
+                this.colors[this.color - 1] +
+                "_" +
+                this.frame +
+                ".png";
 
         const img = this.board.assetLoader.getAsset(path);
 

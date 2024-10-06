@@ -9,6 +9,7 @@ class Piece {
         this.board = board;
         this.color = Math.floor(Math.random() * 3) + 1;
         this.pill = pill;
+        this.empty = false;
     }
     setColor(color) {
         this.color = color;
@@ -18,7 +19,9 @@ class Piece {
         const ctx = this.board.ctx;
         const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
         let path = "";
-        if (howMany == 1) {
+        if (this.empty) {
+            path = "pills/" + this.colors[this.color - 1] + "_empty.png";
+        } else if (howMany == 1) {
             path = "pills/" + this.colors[this.color - 1] + "_single.png";
         } else {
             path =
