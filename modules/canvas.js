@@ -141,7 +141,9 @@ class Board {
 
         ctx.drawImage(
             img,
-            this.playgroundXOffset - this.pieceSize * 3,
+            this.playgroundXOffset -
+                ((this.pieceSize * sizeX) / 2 -
+                    (this.width * this.pieceSize) / 2),
             this.playgroundYOffset,
             this.pieceSize * sizeX + 1,
             this.pieceSize * sizeY + 2

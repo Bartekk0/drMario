@@ -38,9 +38,11 @@ class Game {
         this.spawnViruses(this.levels[this.level - 1]);
 
         style();
+        this.frameCounter = 0;
     }
     async start() {
-        // Initialize the first level
+        // Initialize level
+
         this.initialize(this.level);
         this.createFallingPill();
 
@@ -65,7 +67,10 @@ class Game {
         }
     }
     draw() {
-        setTimeout(() => {
+        if (this.drawTimeOut) {
+            clearTimeout(this.drawTimeOut);
+        }
+        this.drawTimeOut = setTimeout(() => {
             window.requestAnimationFrame(() => {
                 // this.board.updateGridPositions();
                 // this.board.clearCanvas();
@@ -74,16 +79,17 @@ class Game {
                 this.drawHighScore();
                 this.drawLevel();
                 this.drawVirusesLeft();
+                if (!this.anyVirusesLeft()) this.drawNextLevel();
                 if (this.over) this.drawGameOver();
                 this.draw();
+                this.frameCounter++;
+                this.frameCounter %= 60;
+                if (this.frameCounter % 15 == 0) {
+                    this.viruses.forEach((virus) => {
+                        virus.changeFrame();
+                    });
+                }
             });
-            this.frameCounter++;
-            this.frameCounter %= 60;
-            if (this.frameCounter % 15 == 0) {
-                this.viruses.forEach((virus) => {
-                    virus.changeFrame();
-                });
-            }
         }, 1000 / 60);
     }
     spawnViruses(n) {
@@ -125,6 +131,16 @@ class Game {
         );
     }
 
+    /**
+     * Handles the falling logic for the current user-controlled pill.
+     * If the pill can no longer fall, it converts the moving pill into a normal pill,
+     * removes it from the board, adds the new pill to the board, and then clears pieces.
+     * If the pill can still fall, it continues the falling process in a loop.
+     *
+     * @async
+     * @function fallingPill
+     * @returns {Promise<void>} A promise that resolves when the falling and clearing process is complete.
+     */
     async fallingPill() {
         // Pieces fall while it can
         if (!this.userPill.canFall()) {
@@ -144,6 +160,17 @@ class Game {
         }
     }
 
+    /**
+     * Clears pieces from the board if there are 4 or more in a row or column.
+     *
+     * This method checks each row and column of the board for sequences of 4 or more pieces of the same color.
+     * If such sequences are found, the pieces are marked for clearing. After marking, the pieces are cleared
+     * from the board, and any associated viruses or pills are removed. If any pieces are cleared, the remaining
+     * pieces fall to fill the gaps. If no viruses are left, the next level starts; otherwise, a new pill spawns.
+     *
+     * @async
+     * @returns {Promise<void>} A promise that resolves when the pieces have been cleared and the board updated.
+     */
     async piecesClear() {
         let cleared = false;
         // Clearing pieces
@@ -305,6 +332,15 @@ class Game {
             }, 100);
     }
 
+    /**
+     * Handles the falling of pieces on the board.
+     *
+     * This method checks if any pieces can fall and makes them fall if possible.
+     * It recursively calls itself with a delay if any pieces have fallen.
+     * If no pieces fall, it proceeds to clear the pieces.
+     *
+     * @returns {Promise<boolean>} A promise that resolves to a boolean indicating if any pieces fell.
+     */
     async piecesFall() {
         let fall = false;
 
@@ -334,7 +370,7 @@ class Game {
 
     nextLevel() {
         alert("Level " + this.level + " cleared!");
-        console.log();
+        console.log(this.drawTimeOut);
 
         this.level++;
         this.start();
@@ -392,8 +428,8 @@ class Game {
     }
 
     drawNextLevel() {
-        const path = sprites.path + "other/stagecompleted.png";
-        this.board.drawInfo(path, 14, 5);
+        const path = "other/stagecompleted.png";
+        this.board.drawInfo(path, 16, 5);
     }
 
     xToNString(x, n) {
