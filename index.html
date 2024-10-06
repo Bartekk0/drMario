@@ -10,6 +10,7 @@
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
+                font-family: "Press Start 2P", system-ui;
             }
 
             body {
@@ -38,21 +39,45 @@
             }
             .title {
                 font-variant: small-caps;
-                font-family: "Press Start 2P", system-ui;
                 color: #ffff0080;
                 text-shadow: 10px 10px #181a1b;
                 font-size: 100px;
             }
             .button {
                 /* font-variant: small-caps; */
-                font-family: "Press Start 2P", system-ui;
                 color: #a52a2a80;
                 font-size: 80px;
                 text-shadow: 10px 10px #181a1b;
             }
-            .button:active {
+            .button:active,
+            .speedLabel:active {
                 text-shadow: none;
                 color: #a52a2aa0;
+            }
+            .speed {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+            .speedRadio {
+                display: none;
+            }
+            .speedLabel {
+                font-size: 40px;
+                text-shadow: 5px 5px #181a1b;
+                cursor: pointer;
+            }
+            .speedLabel[for="low"] {
+                color: #0303be80;
+            }
+            .speedLabel[for="med"] {
+                color: #a52a2aa0;
+            }
+            .speedLabel[for="hi"] {
+                color: #ffff0080;
+            }
+            .speedLabel:has(input:checked) {
+                text-decoration: underline;
             }
         </style>
     </head>
@@ -61,10 +86,54 @@
             <div class="title">Dr. Mario</div>
 
             <div class="button" onclick="start()">START</div>
+            <div class="speed">
+                <label for="low" class="speedLabel"
+                    >LOW
+                    <input
+                        type="radio"
+                        name="speed"
+                        id="low"
+                        class="speedRadio"
+                        oninput="localStorage.setItem('MarioSpeed', this.id)"
+                    />
+                </label>
+                <label for="med" class="speedLabel"
+                    >MEDIUM
+                    <input
+                        type="radio"
+                        name="speed"
+                        id="med"
+                        class="speedRadio"
+                        oninput="localStorage.setItem('MarioSpeed', this.id)"
+                    />
+                </label>
+                <label for="hi" class="speedLabel"
+                    >HIGH
+                    <input
+                        type="radio"
+                        name="speed"
+                        id="hi"
+                        class="speedRadio"
+                        oninput="localStorage.setItem('MarioSpeed', this.id)"
+                    />
+                </label>
+            </div>
         </div>
         <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const ls = localStorage.getItem("MarioSpeed");
+                if (ls) {
+                    document.getElementById(ls).checked = true;
+                } else {
+                    document.getElementById("low").checked = true;
+                    localStorage.setItem("MarioSpeed", "low");
+                }
+            });
+
             function start() {
-                setTimeout(window.location.replace("game.html"), 1000);
+                setTimeout(() => {
+                    window.location.href = "game.html";
+                }, 1000);
             }
             document.addEventListener("keypress", (e) => {
                 if (e.key == "Enter") start();
