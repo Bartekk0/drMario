@@ -19,6 +19,8 @@ class Game {
         this.frameCounter = 0;
         this.over = false;
         this.assetLoader = new AssetLoader();
+        this.startingScreenOnEnter_ = this.startingScreenOnEnter.bind(this);
+        this.nextLevelOnEnter_ = this.nextLevelOnEnter.bind(this);
     }
     randomColor() {
         this.nextColors = [
@@ -30,7 +32,9 @@ class Game {
     initialize() {
         // Finite number of levels bc board does not grow
         if (this.level - 1 >= this.levels.length) {
-            this.gameEnd(1);
+            window.addEventListener("keydown", this.startingScreenOnEnter_);
+
+            this.gameOver(1);
         }
 
         // Reset the board and spawn viruses
@@ -54,7 +58,7 @@ class Game {
             }
 
             this.board.draw();
-            alert("Starting level " + this.level);
+            // alert("Starting level " + this.level);
 
             // Start first step of game loop
             setTimeout(() => {
@@ -72,22 +76,28 @@ class Game {
         }
         this.drawTimeOut = setTimeout(() => {
             window.requestAnimationFrame(() => {
-                // this.board.updateGridPositions();
-                // this.board.clearCanvas();
-                this.board.draw();
-                this.drawScore();
-                this.drawHighScore();
-                this.drawLevel();
-                this.drawVirusesLeft();
                 if (!this.anyVirusesLeft()) this.drawNextLevel();
-                if (this.over) this.drawGameOver();
-                this.draw();
-                this.frameCounter++;
-                this.frameCounter %= 60;
-                if (this.frameCounter % 15 == 0) {
-                    this.viruses.forEach((virus) => {
-                        virus.changeFrame();
-                    });
+                else if (this.over) {
+                    window.addEventListener(
+                        "keydown",
+                        this.startingScreenOnEnter_
+                    );
+                    this.drawGameOver();
+                } else {
+                    this.board.draw();
+                    this.drawScore();
+                    this.drawHighScore();
+                    this.drawLevel();
+                    this.drawVirusesLeft();
+
+                    this.draw();
+                    this.frameCounter++;
+                    this.frameCounter %= 60;
+                    if (this.frameCounter % 15 == 0) {
+                        this.viruses.forEach((virus) => {
+                            virus.changeFrame();
+                        });
+                    }
                 }
             });
         }, 1000 / 60);
@@ -323,11 +333,16 @@ class Game {
                             this.fallingPill();
                         }, this.interval);
                     } else {
-                        this.gameEnd(0);
+                        window.addEventListener(
+                            "keydown",
+                            this.startingScreenOnEnter_
+                        );
+                        this.gameOver(0);
                     }
                 } else {
                     // Or next level starts
-                    this.nextLevel();
+                    window.addEventListener("keydown", this.nextLevelOnEnter_);
+                    // this.nextLevel();
                 }
             }, 100);
     }
@@ -335,7 +350,7 @@ class Game {
     /**
      * Handles the falling of pieces on the board.
      *
-     * This method checks if any pieces can fall and makes them fall if possible.
+     * This method checks if any pieces can fall and makes them fall if possible
      * It recursively calls itself with a delay if any pieces have fallen.
      * If no pieces fall, it proceeds to clear the pieces.
      *
@@ -369,7 +384,8 @@ class Game {
     }
 
     nextLevel() {
-        alert("Level " + this.level + " cleared!");
+        window.removeEventListener("keydown", this.nextLevelOnEnter_);
+        // alert("Level " + this.level + " cleared!");
         console.log(this.drawTimeOut);
 
         this.level++;
@@ -378,7 +394,7 @@ class Game {
         this.scoreChanged();
     }
 
-    gameEnd(x) {
+    gameOver(x) {
         this.over = true;
         // if (x) alert("You win");
         // else alert("You lost");
@@ -444,6 +460,17 @@ class Game {
     virusKilled() {
         this.score += 100;
         this.scoreChanged();
+    }
+
+    startingScreenOnEnter(e) {
+        if (e.key == "Enter") {
+            window.location.href = "index.html";
+        }
+    }
+    nextLevelOnEnter(e) {
+        if (e.key == "Enter") {
+            this.nextLevel();
+        }
     }
 }
 
