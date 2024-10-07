@@ -46,19 +46,16 @@ class Game {
     }
     async start() {
         // Initialize level
-
+        await new Promise((r) => setTimeout(r, 1000));
         this.initialize(this.level);
         this.createFallingPill();
 
         try {
             if (!this.board.assetLoader.loaded) {
-                console.log("Loading images");
-
                 await this.board.loadImages();
             }
 
             this.board.draw();
-            // alert("Starting level " + this.level);
 
             // Start first step of game loop
             setTimeout(() => {
@@ -385,8 +382,6 @@ class Game {
 
     nextLevel() {
         window.removeEventListener("keydown", this.nextLevelOnEnter_);
-        // alert("Level " + this.level + " cleared!");
-        console.log(this.drawTimeOut);
 
         this.level++;
         this.start();
@@ -396,10 +391,7 @@ class Game {
 
     gameOver(x) {
         this.over = true;
-        // if (x) alert("You win");
-        // else alert("You lost");
         this.scoreChanged();
-        // location.reload();
     }
 
     scoreChanged() {

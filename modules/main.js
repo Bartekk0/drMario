@@ -7,7 +7,6 @@ const speeds = {
 };
 
 const ls = localStorage.getItem("MarioSpeed");
-console.log(speeds[ls]);
 
 let speed = speeds["low"];
 if (ls) {
@@ -16,8 +15,6 @@ if (ls) {
     speed = speeds["low"];
     localStorage.setItem("MarioSpeed", "low");
 }
-
-console.log(speed);
 
 const newGame = new Game(speed);
 newGame.start();
