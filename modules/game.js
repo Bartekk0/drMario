@@ -1,9 +1,10 @@
 import Board from "./canvas.js";
 import Virus from "./virus.js";
-import movingPill from "./movingPill.js";
+import MovingPill from "./movingPill.js";
 import style from "./style.js";
 import sprites from "./sprites.js";
 import AssetLoader from "./assetLoader.js";
+import NextPill from "./nextPill.js";
 
 class Game {
     constructor(interval = 500) {
@@ -27,6 +28,7 @@ class Game {
             Math.floor(Math.random() * 3) + 1,
             Math.floor(Math.random() * 3) + 1,
         ];
+        this.nextPill = new NextPill(13, -3, this.board, this.nextColors);
     }
 
     initialize() {
@@ -46,25 +48,26 @@ class Game {
     }
     async start() {
         // Initialize level
-        await new Promise((r) => setTimeout(r, 1000));
+        await new Promise((resolve) => setTimeout(() => resolve(), 1000));
         this.initialize(this.level);
-        this.createFallingPill();
+        this.randomColor();
 
         try {
             if (!this.board.assetLoader.loaded) {
                 await this.board.loadImages();
             }
-
-            this.board.draw();
+        } catch (error) {
+            console.error("Error loading assets:", error);
+            alert("Failed to load game assets. Please try again.");
+        } finally {
+            this.draw();
+            await this.createFallingPill();
 
             // Start first step of game loop
             setTimeout(() => {
                 this.fallingPill();
                 this.draw();
             }, this.interval);
-        } catch (error) {
-            console.error("Error loading assets:", error);
-            alert("Failed to load game assets. Please try again.");
         }
     }
     draw() {
@@ -82,11 +85,11 @@ class Game {
                     this.drawGameOver();
                 } else {
                     this.board.draw();
+                    this.nextPill.draw();
                     this.drawScore();
                     this.drawHighScore();
                     this.drawLevel();
                     this.drawVirusesLeft();
-
                     this.draw();
                     this.frameCounter++;
                     this.frameCounter %= 60;
@@ -122,11 +125,12 @@ class Game {
             virus.setColor((i % 3) + 1);
         }
     }
-    createFallingPill() {
-        this.randomColor();
-
+    async createFallingPill() {
         // New falling pill
-        this.userPill = new movingPill(3, 0, this.board, this.nextColors);
+
+        await this.nextPill.animate(this.interval / 10);
+        this.userPill = MovingPill.fromNextPill(this.nextPill);
+        this.randomColor();
 
         this.board.addPill(this.userPill);
     }
@@ -150,20 +154,26 @@ class Game {
      */
     async fallingPill() {
         // Pieces fall while it can
+
         if (!this.userPill.canFall()) {
             // Turning moving pill into normal pill
             this.board.removePill(this.userPill);
             this.board.addPill(this.userPill.intoPill());
 
             // Then start next step of the game
+
             await this.piecesClear();
         } else {
             // Falling loop
             this.userPill.fall();
 
-            setTimeout(() => {
-                this.fallingPill();
-            }, this.interval);
+            await new Promise((resolve) =>
+                setTimeout(() => {
+                    this.fallingPill();
+
+                    resolve();
+                }, this.interval)
+            );
         }
     }
 
@@ -273,7 +283,9 @@ class Game {
                     for (let j = e.x[0]; j < endX + 1; j++)
                         this.board.grid[i][j].empty = true;
 
-                await new Promise((r) => setTimeout(r, this.interval));
+                await new Promise((resolve) =>
+                    setTimeout(() => resolve(), this.interval)
+                );
 
                 for (let i = endY; i >= e.y[0]; i--) {
                     for (let j = e.x[0]; j < endX + 1; j++) {
@@ -301,10 +313,10 @@ class Game {
                         }
 
                         // this.board.grid[i][j].empty = true;
-                        await new Promise((r) =>
-                            setTimeout(r, this.interval / 8)
-                        );
 
+                        await new Promise((resolve) =>
+                            setTimeout(() => resolve(), this.interval / 8)
+                        );
                         this.board.updateGridPositions();
 
                         this.board.grid[i][j] = undefined;
@@ -319,29 +331,39 @@ class Game {
             // setTimeout(() => {
             this.piecesFall();
             // }, this.interval);
-        } else
-            setTimeout(() => {
-                // If not pill spawns again
-                if (this.anyVirusesLeft()) {
-                    if (this.canPillSpawn()) {
-                        this.createFallingPill();
+        } else {
+            await new Promise((resolve) =>
+                setTimeout(async () => {
+                    // If not pill spawns again
+                    if (this.anyVirusesLeft()) {
+                        if (this.canPillSpawn()) {
+                            await this.createFallingPill();
 
-                        setTimeout(() => {
-                            this.fallingPill();
-                        }, this.interval);
+                            await new Promise((resolve1) =>
+                                setTimeout(() => {
+                                    this.fallingPill();
+                                    resolve1();
+                                }, this.interval)
+                            );
+                        } else {
+                            window.addEventListener(
+                                "keydown",
+                                this.startingScreenOnEnter_
+                            );
+                            this.gameOver(0);
+                        }
                     } else {
+                        // Or next level starts
                         window.addEventListener(
                             "keydown",
-                            this.startingScreenOnEnter_
+                            this.nextLevelOnEnter_
                         );
-                        this.gameOver(0);
+                        // this.nextLevel();
                     }
-                } else {
-                    // Or next level starts
-                    window.addEventListener("keydown", this.nextLevelOnEnter_);
-                    // this.nextLevel();
-                }
-            }, 100);
+                    resolve();
+                }, 100)
+            );
+        }
     }
 
     /**

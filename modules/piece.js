@@ -3,11 +3,14 @@ import sprites from "./sprites.js";
 class Piece {
     colors = ["yellow", "red", "blue"];
     // colors = ["#ffff0080", "#a52a2a80", "#6494ed80"]
-    constructor(x, y, board, pill) {
+    constructor(x, y, board, pill, color) {
         this.x = x;
         this.y = y;
         this.board = board;
-        this.color = Math.floor(Math.random() * 3) + 1;
+        console.log("color", color);
+
+        this.color = color ? color : Math.floor(Math.random() * 3) + 1;
+        console.log("color", this.color);
         this.pill = pill;
         this.empty = false;
     }

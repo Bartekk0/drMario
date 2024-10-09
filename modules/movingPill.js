@@ -1,9 +1,12 @@
 import Pill from "./pill.js";
 
-class movingPill extends Pill {
+class MovingPill extends Pill {
     constructor(x = 0, y = 0, board, colors = []) {
         super(x, y, board, 0, colors);
         this.#addEventLiseners();
+    }
+    static fromNextPill(nextPill) {
+        return new MovingPill(3, 0, nextPill.board, nextPill.colors);
     }
 
     #addEventLiseners() {
@@ -232,11 +235,11 @@ class movingPill extends Pill {
             this.pieces[0].x,
             this.pieces[0].y,
             this.board,
-            this.spin
+            this.spin,
+            [this.pieces[0].color, this.pieces[1].color]
         );
-        res.setColorsFromPieces(this.pieces);
         return res;
     }
 }
-export default movingPill;
+export default MovingPill;
 

@@ -7,6 +7,7 @@ class Pill {
         this.colors = colors;
 
         this.pieces = this.piecesSpined(x, y);
+        console.log("this.pieces", this.pieces);
 
         if (colors.length > 0) {
             this.pieces.forEach((piece, index) => {
@@ -25,13 +26,13 @@ class Pill {
         switch (this.spin % 2) {
             case 0:
                 return [
-                    new Piece(x, y, this.board, this),
-                    new Piece(x + 1, y, this.board, this),
+                    new Piece(x, y, this.board, this, this.colors[0]),
+                    new Piece(x + 1, y, this.board, this, this.colors[1]),
                 ];
             case 1:
                 return [
-                    new Piece(x, y, this.board, this),
-                    new Piece(x, y - 1, this.board, this),
+                    new Piece(x, y, this.board, this, this.colors[0]),
+                    new Piece(x, y - 1, this.board, this, this.colors[1]),
                 ];
             default:
                 break;
