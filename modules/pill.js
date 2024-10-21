@@ -7,7 +7,6 @@ class Pill {
         this.colors = colors;
 
         this.pieces = this.piecesSpined(x, y);
-        console.log("this.pieces", this.pieces);
 
         if (colors.length > 0) {
             this.pieces.forEach((piece, index) => {

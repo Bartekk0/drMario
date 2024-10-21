@@ -5,6 +5,7 @@ import style from "./style.js";
 import sprites from "./sprites.js";
 import AssetLoader from "./assetLoader.js";
 import NextPill from "./nextPill.js";
+import Hand from "./hand.js";
 
 class Game {
     constructor(interval = 500) {
@@ -22,13 +23,20 @@ class Game {
         this.assetLoader = new AssetLoader();
         this.startingScreenOnEnter_ = this.startingScreenOnEnter.bind(this);
         this.nextLevelOnEnter_ = this.nextLevelOnEnter.bind(this);
+        this.hand = new Hand(this.board, this.interval);
     }
     randomColor() {
         this.nextColors = [
             Math.floor(Math.random() * 3) + 1,
             Math.floor(Math.random() * 3) + 1,
         ];
-        this.nextPill = new NextPill(13, -3, this.board, this.nextColors);
+        this.nextPill = new NextPill(
+            13,
+            -3,
+            this.board,
+            this.hand,
+            this.nextColors
+        );
     }
 
     initialize() {
@@ -91,6 +99,7 @@ class Game {
                     this.drawLevel();
                     this.drawVirusesLeft();
                     this.draw();
+                    this.hand.draw();
                     this.frameCounter++;
                     this.frameCounter %= 60;
                     if (this.frameCounter % 15 == 0) {
@@ -227,8 +236,9 @@ class Game {
                 }
 
                 if (j == row.length - 1) {
-                    if (colorCount >= 4)
+                    if (colorCount >= 4) {
                         toClear.push({ x: [colorStart, j], y: [i] });
+                    }
                     colorCount = 0;
                     colorStart = null;
                     lastColor = null;
@@ -269,7 +279,10 @@ class Game {
                 }
             }
         }
-
+        for (let i = 0; i < toClear.length; i++) {
+            const element = toClear[i];
+            console.log(element);
+        }
         if (toClear.length > 0) {
             // Then clearing it
             for (const e of toClear) {
@@ -280,8 +293,22 @@ class Game {
                 else endY = e.y[0];
 
                 for (let i = endY; i >= e.y[0]; i--)
-                    for (let j = e.x[0]; j < endX + 1; j++)
+                    for (let j = e.x[0]; j < endX + 1; j++) {
                         this.board.grid[i][j].empty = true;
+                    }
+            }
+            // Then clearing it
+            for (const e of toClear) {
+                let endX, endY;
+                if (e.x.length == 2) endX = e.x[1];
+                else endX = e.x[0];
+                if (e.y.length == 2) endY = e.y[1];
+                else endY = e.y[0];
+
+                // for (let i = endY; i >= e.y[0]; i--)
+                //     for (let j = e.x[0]; j < endX + 1; j++) {
+                //         this.board.grid[i][j].empty = true;
+                //     }
 
                 await new Promise((resolve) =>
                     setTimeout(() => resolve(), this.interval)

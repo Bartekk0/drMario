@@ -16,7 +16,7 @@ Punktacja:
 			- dodanie odpowiednich grafik tabletek
 
 		*1p [cz.1]
--			sterowanie:	
+			sterowanie:	
 				spuszczenie klocka - strzałka w dół / s (np. 00:04 - 00:05)
 				następuje zablokowanie ruchów póki klocek nie spadnie
 			- klocek spada w dół co określony czas 
@@ -25,7 +25,7 @@ Punktacja:
 
 		*1p [cz.2]
 			- zbijaniu ulegają min.4 elementy tego samego koloru w wierszu (0:26) lub kolumnie
--			- pamiętaj o "animacji zbitych grup" - ox (lewy filmik 00:29) [cz.4]
+			- pamiętaj o "animacji zbitych grup" - ox (lewy filmik 00:29) [cz.4]
 
 		*1p [cz.2]
 			- uważaj na krzyżowania (0:43)
@@ -47,7 +47,7 @@ Punktacja:
 			Ad.X - dodajemy info o końcu gry (game over) jak i końcu level'u (stage completed) [cz.4]
 
 -		1p [cz.4]
-			Ad.3 - animacja tabletki i ręki
++/-			Ad.3 - animacja tabletki i ręki
 
 -		1p [cz.4]
 -			Ad.4 - podmieniam całą grafikę gdy game over (lewy filmik 00:00)
@@ -56,12 +56,12 @@ Punktacja:
 -			Ad.5 - nie wymagam animacji zniszczonego typu wirusa (u mnie brak)
 
 +/-		0.5p [cz.4]
--			preview tabletki
+			preview tabletki
 
 -		+1p (bonus pdb)
 -			dla osób, które pozbędą się moich mankamentów:
--				tableta "w pionie", animacje "padających" wirusów (z lewej) 
++/-				tableta "w pionie", animacje "padających" wirusów (z lewej) 
 +/-				i dadzą możliwość kontynuacji gry na kolejnych level'ach (zmiana kolorystyki, il. wirusów).
 
-		SUMA PUNKTÓW:
+		SUMA PUNKTÓW: 
 

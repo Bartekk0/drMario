@@ -7,10 +7,10 @@ class Piece {
         this.x = x;
         this.y = y;
         this.board = board;
-        console.log("color", color);
+        // console.log("color", color);
 
         this.color = color ? color : Math.floor(Math.random() * 3) + 1;
-        console.log("color", this.color);
+        // console.log("color", this.color);
         this.pill = pill;
         this.empty = false;
     }

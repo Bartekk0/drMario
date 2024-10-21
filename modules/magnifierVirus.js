@@ -16,15 +16,22 @@ class MagnifierVirus {
         this.board = board;
         this.color = color;
         this.position = startingPosition;
+        this.frame = 0;
     }
     draw() {
         const ctx = this.board.ctx;
         const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
 
-        let path = "magnifier";
+        let path = "magnifier/" + this.color + "/" + frame + ".png";
         const img = this.board.assetLoader.getAsset(path);
 
-        ctx.drawImage(img, x, y, this.board.pieceSize, this.board.pieceSize);
+        ctx.drawImage(
+            img,
+            x,
+            y,
+            this.board.pieceSize * 3,
+            this.board.pieceSize * 3
+        );
     }
     changeFrame() {
         this.frame++;
