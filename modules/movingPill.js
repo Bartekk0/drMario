@@ -11,7 +11,7 @@ class MovingPill extends Pill {
 
     #addEventLiseners() {
         // Just basic event listeners
-        document.addEventListener("keydown", (e) => {
+        this.listeners = (e) => {
             switch (e.key) {
                 case "ArrowLeft":
                 case "a":
@@ -25,17 +25,18 @@ class MovingPill extends Pill {
                 case "s":
                     this.moveDown();
                     break;
-                case "z":
-                case "Shift":
-                    this.spinPill(-1);
-                    break;
                 case "x":
-                case "w":
-                case "ArrowUp":
+                case "Shift":
                     this.spinPill(1);
                     break;
+                case "z":
+                case "w":
+                case "ArrowUp":
+                    this.spinPill(-1);
+                    break;
             }
-        });
+        };
+        document.addEventListener("keydown", this.listeners);
     }
     moveRight() {
         // Different condition for horizontal and vertical positions.
@@ -104,8 +105,6 @@ class MovingPill extends Pill {
         // Spin even => vertical    -
         // Spin odd  => horizontal  |
 
-        // FIXME: something is wrong with this code
-
         switch (this.spin) {
             case 0:
                 if (
@@ -129,9 +128,7 @@ class MovingPill extends Pill {
                         this.pieces[1].x++;
                         this.pieces[1].y++;
                     } else error = true;
-                }
-                // Checking if spining is possible
-                else if (
+                } else if (
                     this.board.grid[this.pieces[1].y + 1][
                         this.pieces[1].x + 1
                     ] == undefined
@@ -224,8 +221,12 @@ class MovingPill extends Pill {
             default:
                 break;
         }
+
         if (error) {
             this.spin -= s;
+            if (this.spin < 0) {
+                this.spin = this.spin + 4;
+            }
         }
     }
     intoPill() {

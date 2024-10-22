@@ -50,7 +50,6 @@ class NextPill extends Pill {
             this.spin += this.path[i].dspin;
             if (this.spin < 0) this.spin += 4;
             this.spin %= 4;
-            console.log(this.spin, this.lastSpin);
 
             if (this.spin % 2 == 0 && this.lastSpin != this.spin) {
                 [...this.colors] = [...this.colors.reverse()];
@@ -59,7 +58,6 @@ class NextPill extends Pill {
                 this.pieces[0].x + this.path[i].dx,
                 this.pieces[0].y + this.path[i].dy
             );
-            // console.log(this.pieces, this.spin);
             if (i % 3 == 0 && i != 0 && i < 9) {
                 this.hand.animate();
             }

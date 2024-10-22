@@ -19,11 +19,11 @@ class Virus extends Piece {
 
         let path = "";
         if (this.empty)
-            path = "viruses/" + this.colors[this.color - 1] + "_empty.png";
+            path = "viruses/" + Piece.colors[this.color - 1] + "_empty.png";
         else
             path =
                 "viruses/virus_" +
-                this.colors[this.color - 1] +
+                Piece.colors[this.color - 1] +
                 "_" +
                 this.frame +
                 ".png";

@@ -16,7 +16,10 @@ if (ls) {
     localStorage.setItem("MarioSpeed", "low");
 }
 
-const newGame = new Game(speed);
+// ZMIEŃ NA FALSE ABY WYŁĄCZYĆ ALERT Z INSTUKCJAMI <----------------------------
+const info = true;
+
+const newGame = new Game(speed, info);
 newGame.start();
 
 export default newGame;

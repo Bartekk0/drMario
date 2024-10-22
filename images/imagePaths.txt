@@ -1,4 +1,3 @@
-spritesheet.png
 hands/down_1.png
 hands/down_2.png
 hands/middle11.png

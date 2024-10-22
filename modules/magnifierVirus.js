@@ -1,37 +1,51 @@
 import AssetLoader from "./assetLoader.js";
-import { sprites } from "./sprites.js";
+import Piece from "./piece.js";
 
 class MagnifierVirus {
     positions = [
-        { x: 0, y: 0 },
-        { x: 0, y: 1 },
-        { x: 1, y: 0 },
         { x: 1, y: 1 },
-        { x: 2, y: 0 },
-        { x: 2, y: 1 },
+        { x: 1, y: 2 },
+
+        { x: 4, y: 3 },
+        { x: 5, y: 3 },
+
+        { x: 7, y: 0 },
+        { x: 7, y: -1 },
+
+        { x: 5, y: -3 },
+        { x: 4, y: -3 },
+
+        { x: 2, y: -2 },
+        { x: 2, y: -2 },
     ];
-    offsetX = 0;
-    offsetY = 0;
-    constructor(board, color, startingPosition) {
+    offsetX = 2;
+    offsetY = 17;
+    constructor(board, color) {
         this.board = board;
         this.color = color;
-        this.position = startingPosition;
+        this.position = Math.round(
+            (this.positions.length / 3) * Piece.colors.indexOf(color)
+        );
         this.frame = 0;
+        this.dead = false;
     }
     draw() {
-        const ctx = this.board.ctx;
-        const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
+        if (!this.dead) {
+            const ctx = this.board.ctx;
+            this.setCordinates();
 
-        let path = "magnifier/" + this.color + "/" + frame + ".png";
-        const img = this.board.assetLoader.getAsset(path);
+            let path =
+                "magnifier/" + this.color + "/" + (this.frame + 1) + ".png";
 
-        ctx.drawImage(
-            img,
-            x,
-            y,
-            this.board.pieceSize * 3,
-            this.board.pieceSize * 3
-        );
+            const img = this.board.assetLoader.getAsset(path);
+            ctx.drawImage(
+                img,
+                this.x,
+                this.y,
+                this.board.pieceSize * 3,
+                this.board.pieceSize * 3
+            );
+        }
     }
     changeFrame() {
         this.frame++;
@@ -39,14 +53,16 @@ class MagnifierVirus {
     }
     changePosition() {
         this.position++;
-        this.position %= 6;
+        this.position %= this.positions.length;
     }
     setCordinates() {
         this.x =
-            this.positions[this.position].x * this.board.pieceSize +
-            this.offsetX;
+            this.board.pieceSize * this.offsetX +
+            this.positions[this.position].x * this.board.pieceSize;
         this.y =
-            this.positions[this.position].y * this.board.pieceSize +
-            this.offsetY;
+            this.board.pieceSize * this.offsetY +
+            this.positions[this.position].y * this.board.pieceSize;
     }
 }
+
+export default MagnifierVirus;

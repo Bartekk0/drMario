@@ -46,22 +46,22 @@ Punktacja:
 			Ad.7 - aktualizowane wraz z niszczeniem kolejnych wirusów [cz.4]
 			Ad.X - dodajemy info o końcu gry (game over) jak i końcu level'u (stage completed) [cz.4]
 
--		1p [cz.4]
-+/-			Ad.3 - animacja tabletki i ręki
+		*1p [cz.4]
+			Ad.3 - animacja tabletki i ręki
 
--		1p [cz.4]
--			Ad.4 - podmieniam całą grafikę gdy game over (lewy filmik 00:00)
--				gdy game over wirusy zostają w miejscach w których były gdy gra się kończy
--				(00:07 - tutaj) i zmiana grafik w tych animacjach.
--			Ad.5 - nie wymagam animacji zniszczonego typu wirusa (u mnie brak)
+		*1p [cz.4]
+			Ad.4 - podmieniam całą grafikę gdy game over (lewy filmik 00:00)
+				gdy game over wirusy zostają w miejscach w których były gdy gra się kończy
+				(00:07 - tutaj) i zmiana grafik w tych animacjach.
+			Ad.5 - nie wymagam animacji zniszczonego typu wirusa (u mnie brak)
 
-+/-		0.5p [cz.4]
+		*0.5p [cz.4]
 			preview tabletki
 
--		+1p (bonus pdb)
--			dla osób, które pozbędą się moich mankamentów:
-+/-				tableta "w pionie", animacje "padających" wirusów (z lewej) 
-+/-				i dadzą możliwość kontynuacji gry na kolejnych level'ach (zmiana kolorystyki, il. wirusów).
+		*+1p (bonus pdb)
+			dla osób, które pozbędą się moich mankamentów:
+				tableta "w pionie", animacje "padających" wirusów (z lewej) 
+				i dadzą możliwość kontynuacji gry na kolejnych level'ach (zmiana kolorystyki, il. wirusów).
 
-		SUMA PUNKTÓW: 
+		SUMA PUNKTÓW: 10
 

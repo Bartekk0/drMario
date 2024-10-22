@@ -6,9 +6,12 @@ import sprites from "./sprites.js";
 import AssetLoader from "./assetLoader.js";
 import NextPill from "./nextPill.js";
 import Hand from "./hand.js";
+import MagnifierVirus from "./magnifierVirus.js";
+import Piece from "./piece.js";
+import { displayInfo } from "./functions.js";
 
 class Game {
-    constructor(interval = 500) {
+    constructor(interval = 500, info) {
         this.interval = interval;
         this.board = new Board();
         this.viruses = [];
@@ -24,6 +27,7 @@ class Game {
         this.startingScreenOnEnter_ = this.startingScreenOnEnter.bind(this);
         this.nextLevelOnEnter_ = this.nextLevelOnEnter.bind(this);
         this.hand = new Hand(this.board, this.interval);
+        if (info) displayInfo();
     }
     randomColor() {
         this.nextColors = [
@@ -102,9 +106,20 @@ class Game {
                     this.hand.draw();
                     this.frameCounter++;
                     this.frameCounter %= 60;
+                    this.mViruses.forEach((virus) => {
+                        if (!virus.dead) virus.draw();
+                    });
                     if (this.frameCounter % 15 == 0) {
                         this.viruses.forEach((virus) => {
                             virus.changeFrame();
+                        });
+                        this.mViruses.forEach((virus) => {
+                            if (!virus.dead) virus.changeFrame();
+                        });
+                    }
+                    if (this.frameCounter % 60 == 0) {
+                        this.mViruses.forEach((virus) => {
+                            if (!virus.dead) virus.changePosition();
                         });
                     }
                 }
@@ -113,7 +128,9 @@ class Game {
     }
     spawnViruses(n) {
         const positions = [];
+        this.colorsCount = [0, 0, 0];
         for (var i = 0; i < n; i++) {
+            this.colorsCount[i % 3]++;
             // Creating a new virus
             const x = Math.floor(Math.random() * (this.board.width - 1));
             const y = Math.floor(Math.random() * (this.board.height - 5));
@@ -133,11 +150,27 @@ class Game {
 
             virus.setColor((i % 3) + 1);
         }
+        this.createMagnifierViruses();
+    }
+    createMagnifierViruses() {
+        this.mViruses = [];
+        Piece.colors.forEach((color) => {
+            this.mViruses.push(new MagnifierVirus(this.board, color, 0));
+        });
+    }
+    checkColors() {
+        this.colorsCount.forEach((color, i) => {
+            if (color == 0) {
+                this.mViruses[i].dead = true;
+            }
+        });
     }
     async createFallingPill() {
         // New falling pill
 
         await this.nextPill.animate(this.interval / 10);
+        if (this.userPill)
+            document.removeEventListener("keydown", this.userPill.listeners);
         this.userPill = MovingPill.fromNextPill(this.nextPill);
         this.randomColor();
 
@@ -281,7 +314,6 @@ class Game {
         }
         for (let i = 0; i < toClear.length; i++) {
             const element = toClear[i];
-            console.log(element);
         }
         if (toClear.length > 0) {
             // Then clearing it
@@ -321,7 +353,7 @@ class Game {
                         if (piece == undefined) continue;
 
                         if (piece.constructor.name == "Virus") {
-                            this.virusKilled();
+                            this.virusKilled(piece);
                             this.viruses.splice(this.viruses.indexOf(piece), 1);
                             this.board.viruses.splice(
                                 this.board.viruses.indexOf(piece),
@@ -498,9 +530,11 @@ class Game {
         return result;
     }
 
-    virusKilled() {
+    virusKilled(virus) {
         this.score += 100;
         this.scoreChanged();
+        this.colorsCount[virus.color - 1]--;
+        this.checkColors();
     }
 
     startingScreenOnEnter(e) {

@@ -1,7 +1,7 @@
 import sprites from "./sprites.js";
 
 class Piece {
-    colors = ["yellow", "red", "blue"];
+    static colors = ["yellow", "red", "blue"];
     // colors = ["#ffff0080", "#a52a2a80", "#6494ed80"]
     constructor(x, y, board, pill, color) {
         this.x = x;
@@ -23,13 +23,13 @@ class Piece {
         const [x, y] = this.getCanvasPositionFromXnY(this.x, this.y);
         let path = "";
         if (this.empty) {
-            path = "pills/" + this.colors[this.color - 1] + "_empty.png";
+            path = "pills/" + Piece.colors[this.color - 1] + "_empty.png";
         } else if (howMany == 1) {
-            path = "pills/" + this.colors[this.color - 1] + "_single.png";
+            path = "pills/" + Piece.colors[this.color - 1] + "_single.png";
         } else {
             path =
                 "pills/" +
-                this.colors[this.color - 1] +
+                Piece.colors[this.color - 1] +
                 "_" +
                 sprites["pills"]["piece"][index][spin % 2] +
                 ".png";
